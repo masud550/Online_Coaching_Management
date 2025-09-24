@@ -1,0 +1,12 @@
+.video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.video-card {
+  background: #151a21;
+  padding: 15px;
+  border-radius: 12px;
+}

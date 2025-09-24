@@ -1,0 +1,63 @@
+/* Decorative strip */
+.footer-strip {
+  width: 100%;
+  height: 16px;
+  background: radial-gradient(circle at 10px 10px, #ef4444 2px, transparent 3px);
+  background-size: 20px 20px;
+}
+
+/* Social Icon Hover Glow */
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+.social-icon:hover {
+  transform: scale(1.2);
+  color: #2563eb; /* blue */
+  box-shadow: 0 0 15px #2563eb;
+}
+
+/* Footer Links with Underline Animation */
+.footer-link {
+  position: relative;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+.footer-link:hover {
+  color: white;
+}
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* ========================= Social Icons ========================= */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.social-icons a {
+  font-size: 20px;
+  color: #444;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #16a34a;
+  /* green hover */
+}

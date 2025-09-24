@@ -1,0 +1,134 @@
+.home-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+}
+
+/* ========================= General Reset ========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========================= Moving Headline (Like Screenshot) ========================= */
+.marquee-wrapper {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  background: linear-gradient(90deg, #0072ff, #00c6ff); /* blue background */
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 12px 0;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 2rem;
+  padding-right: 2rem;
+  animation: marqueeSlide 20s linear infinite;
+}
+
+.marquee-content span {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@keyframes marqueeSlide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* ========================= Student Service Card Hover Effect ========================= */
+.service-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 10px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.service-card::after {
+  content: "";
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #0b1baf, #0787b9);
+  transition: bottom 0.4s ease;
+  z-index: 0;
+}
+
+.service-card:hover::after { bottom: 0; }
+.service-card * { position: relative; z-index: 1; }
+.service-card:hover { transform: translateY(-8px); box-shadow: 0 15px 20px rgba(0,0,0,0.25), 0 25px 40px rgba(0,0,0,0.15); }
+
+/* ========================= Course Card Hover Effect ========================= */
+.animated-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 10px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.animated-card::after { display: none; }
+.animated-card h3,
+.animated-card p {
+  color: #1f2937; 
+}
+.animated-card:hover { 
+  transform: translateY(-8px); 
+  box-shadow: 0 15px 20px rgba(0,0,0,0.25), 0 25px 40px rgba(0,0,0,0.15); 
+}
+
+/* ========================= Animated "See More" Button ========================= */
+@keyframes animatedBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-border-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+  font-weight: bold;
+  border-radius: 9999px;
+  box-shadow: 0 4px 8px rgba(6, 182, 212, 0.3);
+  animation: floatTag 2s ease-in-out infinite;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+/* ========================= Animated Price Badge ========================= */
+.price-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+  font-weight: bold;
+  border-radius: 9999px;
+  box-shadow: 0 4px 8px rgba(6, 182, 212, 0.3);
+  animation: floatTag 2s ease-in-out infinite;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+@keyframes floatTag {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Remove background from Our Courses section */
+.bg-orange-50 { background: none; }

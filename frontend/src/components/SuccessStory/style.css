@@ -1,0 +1,12 @@
+/* Success Story Cards */
+.success-card img {
+  transition: transform 0.3s;
+}
+
+.success-card:hover img {
+  transform: scale(1.1);
+}
+
+.success-card p {
+  line-height: 1.5;
+}

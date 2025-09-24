@@ -1,0 +1,130 @@
+.services-section {
+  padding: 50px 20px;
+  text-align: center;
+  background: #0b0f14;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.services-card {
+  background: #151a21;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 234, 255, 0.1);
+  transition: transform 0.4s ease;
+  cursor: pointer;
+}
+
+.services-card:hover {
+  transform: translateY(-5px);
+}
+
+.services-logo {
+  width: 600px;
+  height: 300px;
+  object-fit: contain;
+  margin: 0 auto 15px auto;
+}
+
+.service-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #e9f1f7;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.service-title:hover {
+  color: #00eaff;
+}
+
+/* Overlay (Modal Background) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 15, 20, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal Box */
+.service-modal {
+  background: #151a21;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  color: #e9f1f7;
+  position: relative;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0, 234, 255, 0.2);
+}
+
+.banner-logo {
+  width: 500px;
+  height: 200px;
+  margin-bottom: 15px;
+}
+
+.service-modal h3 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.service-modal p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #00eaff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
