@@ -84,6 +84,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://online-coaching-management.vercel.app",
+    "https://online-coaching-management.onrender.com",
 ]
 
 # --------------------------------------------------
