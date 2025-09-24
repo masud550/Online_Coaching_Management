@@ -22,7 +22,10 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 # Set ALLOWED_HOSTS to Render backend + Vercel frontend
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "online-coaching-management.onrender.com,online-coaching-management.vercel.app").split(",")
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS",
+    "online-coaching-management.onrender.com,online-coaching-management.vercel.app"
+).split(",")
 
 # --------------------------------------------------
 # Installed Apps
@@ -99,7 +102,26 @@ ROOT_URLCONF = 'backend.urls'
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 # --------------------------------------------------
-# Database (SQLite default; you can switch to Postgres on Render if needed)
+# Templates (required for admin)
+# --------------------------------------------------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],  # create this folder even if empty
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',  # must include for admin
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+# --------------------------------------------------
+# Database (SQLite default)
 # --------------------------------------------------
 DATABASES = {
     'default': {
