@@ -2,7 +2,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-from corsheaders.defaults import default_headers 
+from corsheaders.defaults import default_headers
 
 # --------------------------------------------------
 # BASE DIR
@@ -15,11 +15,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 
 SECRET_KEY = os.getenv(
-    "DJANGO_SECRET_KEY", 
+    "DJANGO_SECRET_KEY",
     "django-insecure-3x!7s@p0k#qz&1y9e8w#b*9^t4f%v1l@u2!r#x+5m"
 )
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
+
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+
+# Set ALLOWED_HOSTS to Render backend + Vercel frontend
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "online-coaching-management.onrender.com,online-coaching-management.vercel.app").split(",")
 
 # --------------------------------------------------
 # Installed Apps
@@ -45,14 +48,15 @@ INSTALLED_APPS = [
     'experts',
     'media_gallery',
 ]
+
 # --------------------------------------------------
 # Middleware
 # --------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,14 +65,12 @@ MIDDLEWARE = [
 ]
 
 # --------------------------------------------------
-# CORS (for React frontend)
+# CORS (React frontend)
 # --------------------------------------------------
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://online-coaching-frontend.vercel.app",
-    "https://online-coaching-management.vercel.app", 
-    "https://online-coaching-management.onrender.com",  
+    "https://online-coaching-management.vercel.app",
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -78,8 +80,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://online-coaching-frontend.vercel.app",  
-    "https://online-coaching-management.onrender.com",
+    "https://online-coaching-management.vercel.app",
 ]
 
 # --------------------------------------------------
@@ -95,27 +96,10 @@ REST_FRAMEWORK = {
 # URLs & WSGI
 # --------------------------------------------------
 ROOT_URLCONF = 'backend.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 # --------------------------------------------------
-# Database (SQLite by default)
+# Database (SQLite default; you can switch to Postgres on Render if needed)
 # --------------------------------------------------
 DATABASES = {
     'default': {
@@ -133,7 +117,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# WhiteNoise config
+# WhiteNoise for serving static files
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # --------------------------------------------------
