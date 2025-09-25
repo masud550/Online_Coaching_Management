@@ -15,7 +15,7 @@ const ExpertDetail = () => {
   if (!expert) return <p className="text-center p-6">Loading...</p>;
 
   return (
-    <div>
+    <div className="home-page">
       <div className="p-8 md:px-20">
         <div className="flex flex-col items-center">
           <img
@@ -24,7 +24,7 @@ const ExpertDetail = () => {
             className="w-40 h-40 rounded-full border-4 border-green-500 mb-4"
           />
           <h2 className="text-3xl font-bold">{expert.name}</h2>
-          <p className="text-gray-600">{expert.position}</p>
+          <p className="text-blue-600">{expert.position}</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mt-10">
@@ -37,7 +37,7 @@ const ExpertDetail = () => {
             </ul>
           </div>
 
-          <div className="p-6 bg-white border rounded-lg shadow-sm">
+          <div className="p-6 border rounded-lg shadow-sm">
             <h3 className="font-semibold text-lg mb-2">Qualification</h3>
             <p>{expert.qualification}</p>
             <div className="flex gap-6 mt-4 text-2xl">
@@ -84,7 +84,7 @@ const ExpertDetail = () => {
                 className="p-6 border rounded-lg shadow-md hover:shadow-lg"
               >
                 <h4 className="font-semibold">{project.title}</h4>
-                <p className="text-gray-600">{project.description}</p>
+                <p className="text-white">{project.description}</p>
                 {project.link && (
                   <a
                     href={project.link}

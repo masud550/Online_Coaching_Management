@@ -23,15 +23,12 @@ const Courses = () => {
     getCourses();
   }, []);
 
-  // Helper to get full image URL
   const fullUrl = (imgPath) => {
-    if (!imgPath) return null; // return null instead of ""
+    if (!imgPath) return null;
     if (imgPath.startsWith("http")) return imgPath;
     const base = (process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000/api").replace(/\/api\/?$/, "");
     return `${base}${imgPath.startsWith("/") ? "" : "/"}${imgPath}`;
   };
-
-  // Static benefits (can later be fetched from API)
   const benefitsData = [
     "You will get around 40 hours of online Zoom classes in each course.",
     "Every month there are special live Q&A and tips classes outside of the course.",
@@ -122,6 +119,103 @@ const Courses = () => {
             />
           </div>
         </div>
+        {/* ========================= Why Choose Section ========================= */}
+        <div className="why-choose-section px-4 md:px-20 py-12">
+          <div className="why-choose-container flex flex-col md:flex-row gap-10">
+            <div className="why-choose-text flex-1">
+              <h2>
+                Why <span>Choose Us</span>?
+              </h2>
+              <p>
+                We are dedicated to providing high-quality courses that prepare
+                students for the real-world freelancing and job market. With
+                expert mentors, live classes, recorded lessons, and 24/7 support,
+                we ensure that you gain the skills needed to build your career
+                successfully.
+              </p>
+              <ul>
+                <li>Professional instructors with real industry experience.</li>
+                <li>Hands-on projects and assignments.</li>
+                <li>Interactive live classes and Q&A sessions.</li>
+                <li>
+                  Lifetime access to learning materials and community.
+                </li>
+              </ul>
+            </div>
+
+            <div className="why-choose-video flex-1">
+              <iframe
+                width="100%"
+                height="315"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Intro Video"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      {/* ========================= Payment Section ========================= */}
+<div className="transaction-section mt-12 px-2 md:px-10">
+  <h3 className="text-2xl font-bold text-center mb-6">
+    Payment Methods
+  </h3>
+  <p className="text-center text-gray-600 mb-6">
+    Please make your payment via one of the following methods and keep the
+    transaction screenshot.
+  </p>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {/* Bkash */}
+    <div className="txn-card p-6 rounded-lg shadow-md text-center">
+      <img
+        src="/images/bkash.png"
+        alt="Bkash"
+        className="h-12 mx-auto mb-3"
+      />
+      <h4 className="text-xl font-semibold text-pink-600 mb-2">Bkash</h4>
+      <p className="mb-2 text-gray-800">
+        Number: <strong>017XXXXXXXX</strong>
+      </p>
+      <p className="text-gray-800">Type: Personal / Merchant (specify)</p>
+    </div>
+
+    {/* Nagad */}
+    <div className="txn-card p-6 rounded-lg shadow-md text-center">
+      <img
+        src="/images/nagad.png"
+        alt="Nagad"
+        className="h-12 mx-auto mb-3"
+      />
+      <h4 className="text-xl font-semibold text-orange-600 mb-2">Nagad</h4>
+      <p className="mb-2 text-gray-800">
+        Number: <strong>018XXXXXXXX</strong>
+      </p>
+      <p className="text-gray-800">Type: Personal / Merchant (specify)</p>
+    </div>
+
+    {/* Bank */}
+    <div className="txn-card p-6 rounded-lg shadow-md text-center">
+      <img
+        src="/images/bank.png"
+        alt="Bank"
+        className="h-12 mx-auto mb-3"
+      />
+      <h4 className="text-xl font-semibold text-blue-600 mb-2">
+        Bank Transfer
+      </h4>
+      <p className="mb-1 text-gray-800">
+        Account Name: <strong>BUSINESS SCHOOL IT</strong>
+      </p>
+      <p className="mb-1 text-gray-800">
+        Account No: <strong>123456789</strong>
+      </p>
+      <p className="text-gray-800">
+        Bank: Dutch-Bangla Bank, Dhaka Branch
+      </p>
+    </div>
+  </div>
+</div>
 
         {/* Footer */}
         <Footer />

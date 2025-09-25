@@ -73,6 +73,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+     "https://online-coaching-frontend.vercel.app",
     "https://online-coaching-management.vercel.app",
 ]
 
@@ -83,6 +84,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://online-coaching-frontend.vercel.app",
     "https://online-coaching-management.vercel.app",
     "https://online-coaching-management.onrender.com",
 ]

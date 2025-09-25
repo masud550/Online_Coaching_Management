@@ -1,4 +1,3 @@
-// src/components/Login/index.jsx
 import React, { useState, useEffect } from 'react';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +13,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [selectedRole, setSelectedRole] = useState('student');
-  const [roleExtra, setRoleExtra] = useState(''); // student_id / subject / name
+  const [roleExtra, setRoleExtra] = useState(''); 
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -26,24 +25,31 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const t = getToken();
-    if (!t) return;
+useEffect(() => {
+  const routeByRole = (role) => {
+    if (role === 'teacher') navigate('/dashboard/teacher');
+    else if (role === 'institution') navigate('/dashboard/institution');
+    else navigate('/dashboard/student');
+  };
 
-    (async () => {
-      try {
-        const me = await getMe(t);
-        if (me?.role) {
-          routeByRole(me.role);
-        } else {
-          clearTokens();
-        }
-      } catch (err) {
-        console.error("Failed to fetch profile:", err);
+  const t = getToken();
+  if (!t) return;
+
+  (async () => {
+    try {
+      const me = await getMe(t);
+      if (me?.role) {
+        routeByRole(me.role);
+      } else {
         clearTokens();
       }
-    })();
-  }, []);
+    } catch (err) {
+      console.error("Failed to fetch profile:", err);
+      clearTokens();
+    }
+  })();
+}, [navigate]);
+
 
   const routeByRole = (role) => {
     if (role === 'teacher') navigate('/dashboard/teacher');
@@ -130,132 +136,134 @@ const Login = () => {
 
             <h2 className="login-page-title">{isRegistering ? 'Register' : 'Login'}</h2>
 
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              className="login-page-input"
-            />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                isRegistering ? handleRegister() : handleLogin();
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                className="login-page-input"
+              />
 
-            {isRegistering && (
-              <>
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="login-page-input"
-                />
+              {isRegistering && (
+                <>
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="login-page-input"
+                  />
 
-                {selectedRole === 'student' && (
-                  <>
+                  {selectedRole === 'student' && (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="Student ID"
+                        value={roleExtra}
+                        onChange={e => setRoleExtra(e.target.value)}
+                        className="login-page-input"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Full Name"
+                        value={fullName}
+                        onChange={e => setFullName(e.target.value)}
+                        className="login-page-input"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Phone Number"
+                        value={phone}
+                        onChange={e => setPhone(e.target.value)}
+                        className="login-page-input"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Education"
+                        value={education}
+                        onChange={e => setEducation(e.target.value)}
+                        className="login-page-input"
+                      />
+                      <input
+                        type="number"
+                        placeholder="Age"
+                        value={age}
+                        onChange={e => setAge(e.target.value)}
+                        className="login-page-input"
+                      />
+                    </>
+                  )}
+
+                  {selectedRole === 'teacher' && (
                     <input
                       type="text"
-                      placeholder="Student ID (provided by admin)"
+                      placeholder="Subject"
                       value={roleExtra}
                       onChange={e => setRoleExtra(e.target.value)}
                       className="login-page-input"
                     />
+                  )}
+                  {selectedRole === 'institution' && (
                     <input
                       type="text"
-                      placeholder="Full Name"
-                      value={fullName}
-                      onChange={e => setFullName(e.target.value)}
+                      placeholder="Institution name"
+                      value={roleExtra}
+                      onChange={e => setRoleExtra(e.target.value)}
                       className="login-page-input"
                     />
-                    <input
-                      type="text"
-                      placeholder="Phone Number"
-                      value={phone}
-                      onChange={e => setPhone(e.target.value)}
-                      className="login-page-input"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Education"
-                      value={education}
-                      onChange={e => setEducation(e.target.value)}
-                      className="login-page-input"
-                    />
-                    <input
-                      type="number"
-                      placeholder="Age"
-                      value={age}
-                      onChange={e => setAge(e.target.value)}
-                      className="login-page-input"
-                    />
-                  </>
-                )}
-
-                {selectedRole === 'teacher' && (
-                  <input
-                    type="text"
-                    placeholder="Subject"
-                    value={roleExtra}
-                    onChange={e => setRoleExtra(e.target.value)}
-                    className="login-page-input"
-                  />
-                )}
-                {selectedRole === 'institution' && (
-                  <input
-                    type="text"
-                    placeholder="Institution name"
-                    value={roleExtra}
-                    onChange={e => setRoleExtra(e.target.value)}
-                    className="login-page-input"
-                  />
-                )}
-              </>
-            )}
-
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="login-page-input"
-            />
-
-            {isRegistering ? (
-              <label className="login-page-checkbox" style={{ justifyContent: 'center' }}>
-                <input type="checkbox" checked={agreed} onChange={() => setAgreed(!agreed)} />
-                <span>
-                  I agree to the{' '}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="login-page-link">
-                    terms and conditions
-                  </a>
-                </span>
-              </label>
-            ) : (
-              <label className="login-page-checkbox">
-                <input type="checkbox" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
-                <span>Remember Me</span>
-              </label>
-            )}
-
-            <div className="login-page-btn-group">
-              {isRegistering ? (
-                <button onClick={handleRegister} className="login-page-btn" disabled={loading}>
-                  {loading ? 'Creating...' : 'Sign Up'}
-                </button>
-              ) : (
-                <button onClick={handleLogin} className="login-page-btn" disabled={loading}>
-                  {loading ? 'Signing in...' : 'Sign In'}
-                </button>
+                  )}
+                </>
               )}
 
-              <button
-                onClick={() => {
-                  setIsRegistering(!isRegistering);
-                  setAgreed(false);
-                  setRememberMe(false);
-                }}
-                className="login-page-switch"
-              >
-                {isRegistering ? 'Already have an account? Login' : "Don't have an account? Register"}
-              </button>
-            </div>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="login-page-input"
+              />
+
+              {isRegistering ? (
+                <label className="login-page-checkbox" style={{ justifyContent: 'center' }}>
+                  <input type="checkbox" checked={agreed} onChange={() => setAgreed(!agreed)} />
+                  <span>
+                    I agree to the{' '}
+                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="login-page-link">
+                      terms and conditions
+                    </a>
+                  </span>
+                </label>
+              ) : (
+                <label className="login-page-checkbox">
+                  <input type="checkbox" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
+                  <span>Remember Me</span>
+                </label>
+              )}
+
+              <div className="login-page-btn-group">
+                <button type="submit" className="login-page-btn" disabled={loading}>
+                  {loading ? (isRegistering ? 'Creating...' : 'Signing in...') : (isRegistering ? 'Sign Up' : 'Sign In')}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsRegistering(!isRegistering);
+                    setAgreed(false);
+                    setRememberMe(false);
+                  }}
+                  className="login-page-switch"
+                >
+                  {isRegistering ? 'Already have an account? Login' : "Don't have an account? Register"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

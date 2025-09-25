@@ -53,7 +53,11 @@ const CourseDetails = () => {
   return (
     <div className="course-feature-page px-4 md:px-20 py-12">
       <div className="grid md:grid-cols-2 gap-10 items-center">
-        <img src={ fullUrl(course.image?.url || course.image || '') } alt={course.title} className="w-full rounded-lg shadow-lg" />
+        <img
+          src={ fullUrl(course.image?.url || course.image || '') }
+          alt={course.title}
+          className="w-full rounded-lg shadow-lg"
+        />
         <div>
           <h2 className="text-3xl font-bold text-green-600">{course.title}</h2>
           <p>{course.description}</p>
@@ -63,24 +67,12 @@ const CourseDetails = () => {
             {course.benefits && course.benefits.map((b, idx) => <li key={idx}>{b}</li>)}
           </ul>
 
-          <button className="animated-border-btn mt-6" onClick={handleEnroll}>Enroll</button>
+          <button className="animated-border-btn mt-6" onClick={handleEnroll}>
+            Enroll
+          </button>
           {message && <p className="mt-4 text-blue-600">{message}</p>}
         </div>
       </div>
-
-      <h3 className="text-2xl font-bold mt-10 mb-4 text-blue-600">Course Videos</h3>
-      {course.videos && course.videos.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {course.videos.map((video) => (
-            <div key={video.id}>
-              <h4 className="text-lg font-semibold mb-2">{video.title}</h4>
-              <video src={video.video} controls className="w-full rounded-lg shadow-md" />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No videos yet or you are not enrolled.</p>
-      )}
     </div>
   );
 };

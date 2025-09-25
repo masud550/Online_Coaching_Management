@@ -1,4 +1,4 @@
-// ================= Navbar.jsx =================
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AuroraText from "../Commontext/AuroraText";
@@ -18,7 +18,11 @@ import {
   FaBars,
   FaTimes,
   FaCalendarAlt,
+  FaUserGraduate,
 } from "react-icons/fa";
+
+import { getToken } from "../../api/authApi";
+import { API_BASE } from "../../api/config";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,12 +35,15 @@ const Navbar = () => {
 
   // ================= Auth Check =================
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = getToken();
     setIsLoggedIn(!!token);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("refreshToken");
     setIsLoggedIn(false);
     navigate("/login");
   };
@@ -49,18 +56,20 @@ const Navbar = () => {
     }
     try {
       setLoading(true);
-      const res = await fetch(
-        `https://dummyjson.com/products/search?q=${searchTerm}`
-      );
+      const res = await fetch(`${API_BASE}/courses/?search=${searchTerm}`);
       const data = await res.json();
-      setSuggestions(data.products || []);
-      setLoading(false);
+
+      // Backend might return { results: [...] } or just an array
+      const courses = Array.isArray(data) ? data : data.results || [];
+      setSuggestions(courses);
     } catch (error) {
       console.error("Error fetching search suggestions:", error);
+    } finally {
       setLoading(false);
     }
   };
 
+  // Debounce search input
   useEffect(() => {
     const timeout = setTimeout(() => {
       fetchSuggestions(query);
@@ -68,14 +77,13 @@ const Navbar = () => {
     return () => clearTimeout(timeout);
   }, [query]);
 
-  // Close mobile menu when a link is clicked
   const handleLinkClick = () => {
     setIsOpen(false);
   };
 
   return (
-    <nav className="sticky top-0 z-50 shadow-lg transition-colors duration-300">
-      {/* ================= First Line ================= */}
+    <nav className="sticky top-0 z-50 shadow-lg transition-colors duration-300 bg-gray-900 text-white">
+      {/* ================= Top Bar ================= */}
       <div className="navbar-top flex items-center justify-between px-4 py-3">
         {/* Left: Logo + Headline */}
         <div className="flex items-center gap-2">
@@ -101,7 +109,7 @@ const Navbar = () => {
               placeholder="Search..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="search-input w-full"
+              className="search-input w-full px-3 py-2 rounded-md text-black"
             />
             {loading && (
               <div className="absolute right-2 top-2 text-gray-500 text-sm">
@@ -115,7 +123,8 @@ const Navbar = () => {
                     key={item.id}
                     className="px-3 py-2 hover:bg-gray-200 cursor-pointer"
                     onClick={() => {
-                      setQuery(item.title);
+                      navigate(`/courses/${item.id}`);
+                      setQuery("");
                       setSuggestions([]);
                     }}
                   >
@@ -125,12 +134,12 @@ const Navbar = () => {
               </ul>
             )}
           </div>
-          <button className="search-button ml-2 hidden sm:flex">
+          <button className="search-button ml-2 hidden sm:flex items-center gap-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">
             <FaSearch /> Search
           </button>
         </div>
 
-        {/* Right: Login / Logout (only on lg+) */}
+        {/* Right: Login / Logout (Desktop) */}
         <div className="ml-4 hidden lg:block">
           {isLoggedIn ? (
             <button
@@ -161,79 +170,57 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* ================= Second Line (Links + Login for small) ================= */}
+      {/* ================= Links + Mobile Login ================= */}
       <div
-        className={`navbar-bottom ${
-          isOpen ? "block" : "hidden"
-        } lg:flex lg:justify-center lg:items-center px-4 py-2`}
+        className={`navbar-bottom ${isOpen ? "block" : "hidden"
+          } lg:flex lg:justify-center lg:items-center px-4 py-2 bg-gray-800`}
       >
         <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-          <NavLink
-            to="/"
-            onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
-          >
+          <NavLink to="/" onClick={handleLinkClick} className="nav-btn">
             <FaHome /> Home
           </NavLink>
-          <NavLink
-            to="/expertise"
-            onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
-          >
+          <NavLink to="/expertise" onClick={handleLinkClick} className="nav-btn">
             <FaBrain /> Our Expertise
           </NavLink>
           <NavLink
             to="/successstory"
             onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
+            className="nav-btn"
           >
             <FaUsers /> Success Stories
           </NavLink>
-          <NavLink
-            to="/courses"
-            onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
-          >
+          <NavLink to="/courses" onClick={handleLinkClick} className="nav-btn">
             <FaBookOpen /> All Courses
           </NavLink>
           <NavLink
-            to="/events"
+            to="/student/dashboard"
             onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
+            className="nav-btn"
           >
+            <FaUserGraduate /> Student Dashboard
+          </NavLink>
+          <NavLink to="/events" onClick={handleLinkClick} className="nav-btn">
             <FaCalendarAlt /> Events
           </NavLink>
           <NavLink
             to="/ourservices"
             onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
+            className="nav-btn"
           >
             <FaServicestack /> Our Services
           </NavLink>
-          <NavLink
-            to="/media"
-            onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
-          >
+          <NavLink to="/media" onClick={handleLinkClick} className="nav-btn">
             <FaVideo /> Media
           </NavLink>
-          <NavLink
-            to="/gallery"
-            onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
-          >
+          <NavLink to="/gallery" onClick={handleLinkClick} className="nav-btn">
             <FaImages /> Gallery
           </NavLink>
-          <NavLink
-            to="/contact"
-            onClick={handleLinkClick}
-            className={({ isActive }) => `nav-btn ${isActive ? "active" : ""}`}
-          >
+          <NavLink to="/contact" onClick={handleLinkClick} className="nav-btn">
             <FaEnvelope /> Contact
           </NavLink>
 
-          {/* Login/Logout inside hamburger for small devices */}
-          <div className="mt-2 lg:hidden">
+          {/* Mobile Login/Logout */}
+          <div className="mt-2 lg:hidden flex flex-col gap-2">
             {isLoggedIn ? (
               <button
                 onClick={() => {
