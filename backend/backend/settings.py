@@ -24,7 +24,7 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 # Set ALLOWED_HOSTS to Render backend + Vercel frontend
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "online-coaching-management.onrender.com,online-coaching-management.vercel.app"
+    "online-coaching-management.onrender.com"
 ).split(",")
 
 # --------------------------------------------------
@@ -150,7 +150,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-
+APPEND_SLASH = True
 # --------------------------------------------------
 # Default PK field
 # --------------------------------------------------

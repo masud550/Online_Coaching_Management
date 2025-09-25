@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, CourseVideo, Enrollment, Service, StudentStory, Contact
+from .models import Course, CourseVideo, Enrollment, StudentStory, Contact
 from users.models import Teacher, Institution
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -30,11 +30,6 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = ['id', 'student', 'course', 'enrolled_at']
-
-class ServiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Service
-        fields = ['id', 'name', 'icon', 'detail']
 
 class StudentStorySerializer(serializers.ModelSerializer):
     class Meta:

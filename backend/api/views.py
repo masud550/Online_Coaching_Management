@@ -5,11 +5,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Course, CourseVideo, Service, StudentStory, Contact, Enrollment
+from .models import Course, CourseVideo, StudentStory, Contact, Enrollment
 from .serializers import (
     CourseSerializer,
     CourseVideoSerializer,
-    ServiceSerializer,
     StudentStorySerializer,
     ContactSerializer,
     EnrollmentSerializer,
@@ -67,13 +66,6 @@ class CourseVideoListView(ListAPIView):
             raise ValidationError("You are not enrolled in this course.")
 
         return CourseVideo.objects.filter(course_id=pk).order_by("order")
-
-
-# ---------------- Services ----------------
-class ServiceListView(generics.ListAPIView):
-    queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
-
 
 # ---------------- Student Success Stories ----------------
 class StudentStoryListView(generics.ListAPIView):

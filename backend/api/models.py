@@ -46,11 +46,6 @@ class Enrollment(models.Model):
         owner = self.student.user.username if self.student.user else "(guest)"
         return f"{owner} - {self.course.title}"
 
-class Service(models.Model):
-    name = models.CharField(max_length=100)
-    icon = models.CharField(max_length=100)
-    detail = models.TextField()
-
 class StudentStory(models.Model):
     student_name = models.CharField(max_length=100)
     message = models.TextField()

@@ -1,3 +1,4 @@
+# backend/api/urls.py
 from django.urls import path
 from .views import (
     CourseListView,
@@ -5,7 +6,6 @@ from .views import (
     CourseVideoListView,
     EnrollCourseView,
     StudentDashboardView,
-    ServiceListView,
     StudentStoryListView,
     ContactCreateView,
 )
@@ -18,7 +18,6 @@ urlpatterns = [
     path("courses/<int:pk>/videos/", CourseVideoListView.as_view(), name="course-videos"),
 
     path("dashboard/student/", StudentDashboardView.as_view(), name="student-dashboard"),
-    path("services/", ServiceListView.as_view(), name="service-list"),
     path("stories/", StudentStoryListView.as_view(), name="student-stories"),
     path("contact/", ContactCreateView.as_view(), name="contact-create"),
     path("me/", MeView.as_view(), name="me"),
