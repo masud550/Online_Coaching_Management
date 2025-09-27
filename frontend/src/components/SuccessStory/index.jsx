@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Footer from "../Commontext/Footer";
 import "./style.css";
 import { fetchSuccessStories } from "../../api/successApi";
@@ -27,7 +28,7 @@ const SuccessStory = () => {
     return () => (mounted = false);
   }, []);
 
-  const placeholder = "/images/student_placeholder.jpg"; 
+  const placeholder = "/images/student_placeholder.jpg";
 
   return (
     <div className="home-page">
@@ -48,27 +49,28 @@ const SuccessStory = () => {
             )}
 
             {stories.map((story) => (
-              <div
-                key={story.id}
-                className="success-card bg-white rounded-xl shadow-md p-6 text-center hover:shadow-xl transition"
-              >
-                <div className="mb-4">
-                  <img
-                    src={story.image ? story.image : placeholder}
-                    alt={story.name}
-                    className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-blue-500"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = placeholder;
-                    }}
-                  />
+              <Link to={`/success/${story.id}`} key={story.id}>
+                <div className="success-card bg-white rounded-xl shadow-md p-6 text-center hover:shadow-xl transition cursor-pointer">
+                  <div className="mb-4">
+                    <img
+                      src={story.image ? story.image : placeholder}
+                      alt={story.name}
+                      className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-blue-500"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = placeholder;
+                      }}
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold text-green-600 mb-1">
+                    {story.name}
+                  </h3>
+                  <p className="text-gray-500 text-sm mb-3">{story.course}</p>
+                  <p className="text-gray-700 text-sm line-clamp-3">
+                    {story.story}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-green-600 mb-1">
-                  {story.name}
-                </h3>
-                <p className="text-gray-500 text-sm mb-3">{story.course}</p>
-                <p className="text-gray-700 text-sm">{story.story}</p>
-              </div>
+              </Link>
             ))}
           </div>
         )}

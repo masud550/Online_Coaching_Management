@@ -5,3 +5,8 @@ export const fetchSuccessStories = async () => {
   if (!res.ok) throw new Error("Failed to fetch success stories");
   return res.json();
 };
+export const fetchSuccessDetail = async (id) => {
+  const res = await fetch(`${API_BASE.replace(/\/api\/?$/, '')}/api/success/stories/${id}/`);
+  if (!res.ok) throw new Error("Failed to fetch success story detail");
+  return res.json();
+};

@@ -22,7 +22,7 @@ import OurServices from './components/OurServices';
 import Events from './components/Events';
 import ExpertDetail from './components/ExpertDetail';
 import CourseDetails from './components/CourseDetails';
-
+import SuccessDetail from "./components/SuccessStory/SuccessDetail";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -62,6 +62,7 @@ function App() {
         <Route path="/course/:id/videos" element={<CourseVideos />} />
         <Route path="/expert/:id" element={<ExpertDetail />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="/success/:id" element={<SuccessDetail />} />
       </Routes>
     </Router>
   );
