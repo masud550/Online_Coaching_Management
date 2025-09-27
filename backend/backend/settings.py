@@ -21,11 +21,13 @@ SECRET_KEY = os.getenv(
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Set ALLOWED_HOSTS to Render backend + Vercel frontend
-ALLOWED_HOSTS = os.getenv(
-    "ALLOWED_HOSTS",
-    "online-coaching-management.onrender.com"
-).split(",")
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "online-coaching-management.onrender.com",  
+    "online-coaching-frontend.vercel.app",      
+    "online-coaching-management.vercel.app",    
+]
 
 # --------------------------------------------------
 # Installed Apps
@@ -82,11 +84,9 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "https://online-coaching-management.onrender.com",
     "https://online-coaching-frontend.vercel.app",
     "https://online-coaching-management.vercel.app",
-    "https://online-coaching-management.onrender.com",
 ]
 
 # --------------------------------------------------
