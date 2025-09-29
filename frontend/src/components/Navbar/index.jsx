@@ -21,7 +21,7 @@ import {
   FaUserGraduate,
 } from "react-icons/fa";
 
-import { getToken } from "../../api/authApi";
+import { getToken, clearTokens } from "../../api/authApi";
 import { API_BASE } from "../../api/config";
 
 const Navbar = () => {
@@ -35,15 +35,21 @@ const Navbar = () => {
 
   // ================= Auth Check =================
   useEffect(() => {
-    const token = getToken();
-    setIsLoggedIn(!!token);
+    const checkLogin = () => {
+      const token = getToken();
+      setIsLoggedIn(!!token);
+    };
+
+    checkLogin(); // run once on mount
+    window.addEventListener("storage", checkLogin); // listen for login/logout
+
+    return () => {
+      window.removeEventListener("storage", checkLogin);
+    };
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("refreshToken");
+    clearTokens();
     setIsLoggedIn(false);
     navigate("/login");
   };
@@ -172,8 +178,9 @@ const Navbar = () => {
 
       {/* ================= Links + Mobile Login ================= */}
       <div
-        className={`navbar-bottom ${isOpen ? "block" : "hidden"
-          } lg:flex lg:justify-center lg:items-center px-4 py-2 bg-gray-800`}
+        className={`navbar-bottom ${
+          isOpen ? "block" : "hidden"
+        } lg:flex lg:justify-center lg:items-center px-4 py-2 bg-gray-800`}
       >
         <div className="flex flex-col md:flex-row gap-2 md:gap-4">
           <NavLink to="/" onClick={handleLinkClick} className="nav-btn">
