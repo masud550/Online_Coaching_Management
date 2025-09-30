@@ -1,14 +1,14 @@
 // ================= StudentDashboard.jsx =================
 import React, { useEffect, useState } from "react";
 import { getToken, clearTokens } from "../../api/authApi";
+import { useNavigate } from "react-router-dom";   // 👈 navigate import
 import { API_BASE, MEDIA_BASE } from "../../api/config";
-import Login from "../Login"; 
 
 const StudentDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
-  const [showLogin, setShowLogin] = useState(false); 
+  const navigate = useNavigate(); // 👈 hook
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -18,8 +18,7 @@ const StudentDashboard = () => {
       try {
         const token = getToken();
         if (!token) {
-          setShowLogin(true);
-          setLoading(false);
+          navigate("/login"); // 👈 redirect to login page
           return;
         }
 
@@ -32,7 +31,7 @@ const StudentDashboard = () => {
           if (res.status === 401 || res.status === 403) {
             setErrorMsg(errData.error || "Unauthorized. Please log in again.");
             clearTokens();
-            setShowLogin(true); 
+            navigate("/login"); // 👈 redirect again if invalid
           } else {
             setErrorMsg(errData.error || "Failed to load dashboard.");
           }
@@ -55,13 +54,9 @@ const StudentDashboard = () => {
     };
 
     fetchDashboard();
-  }, []);
+  }, [navigate]);
 
   if (loading) return <p style={{ padding: "24px" }}>Loading dashboard...</p>;
-
-  if (showLogin) {
-    return <Login />;
-  }
 
   if (errorMsg) {
     return (
