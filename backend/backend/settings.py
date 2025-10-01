@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     # Third-party
     'corsheaders',
     'rest_framework',
-
+    'cloudinary',
+    'cloudinary_storage',
     # Local apps
     'api',
     'users',
@@ -132,6 +133,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# Cloudinary config
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': os.getenv("CLOUDINARY_API_KEY"),
+    'API_SECRET': os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # --------------------------------------------------
 # Static & Media files

@@ -7,7 +7,6 @@ export const saveTokens = (access, refresh, remember = false) => {
   storage.setItem("token", access);
   if (refresh) storage.setItem("refreshToken", refresh);
 
-  // 🔥 Notify other components (like Navbar) that login state changed
   window.dispatchEvent(new Event("storage"));
 };
 
